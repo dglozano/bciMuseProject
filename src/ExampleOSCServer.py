@@ -9,6 +9,7 @@ import csv
 
 class MuseServer(ServerThread):
     #listen for messages on port 5000
+    #def __init__(self, gui, args):
     def __init__(self, gui):
         self.gui = gui
         ServerThread.__init__(self, 5000)
@@ -16,13 +17,14 @@ class MuseServer(ServerThread):
     #receive EEG data
     @make_method('/muse/eeg', 'ffff')
     def eeg_callback(self, path, args):
-        l_ear, l_forehead, r_forehead, r_ear = args
-        with open('muse.csv', 'a', newline='') as csvfile:
-            eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            eegwriter.writerow([path, l_ear, l_forehead, r_forehead, r_ear])
+        if self.gui.started == True and self.gui.stop == False:
+            l_ear, l_forehead, r_forehead, r_ear = args
+            with open('muse.csv', 'a', newline='') as csvfile:
+                eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                eegwriter.writerow([path, l_ear, l_forehead, r_forehead, r_ear])
 
     @make_method('/muse/elements/horseshoe', 'iiii')
-    def eeg_callback(self, path, args):
-        global gui
-        l_ear, l_forehead, r_forehead, r_ear = args
-        self.gui.set_horseshoe(l_ear, l_forehead, r_forehead, r_ear)
+    def horseshoe_callback(self, path, args):
+        if self.gui.enable_button == False:
+            l_ear, l_forehead, r_forehead, r_ear = args
+            self.gui.set_horseshoe(l_ear, l_forehead, r_forehead, r_ear)
