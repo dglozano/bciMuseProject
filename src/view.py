@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from ExampleOSCServer import MuseServer
+import subprocess
 import time
 
 #run this before muse-io --device 00:06:66:78:45:25 --osc osc.udp://localhost:5000
@@ -98,6 +99,7 @@ class MainGui():
         self.fullscreen()
         self.started = False
         self.stop = False
+        self.video_playing = 0
         self.display_form()
         self.root.mainloop()
 
@@ -137,35 +139,34 @@ class MainGui():
         label = Label(self.instructions, textvariable=self.horseshoe, fg = green_d, bg = "white", font=("Arial",30))
         label.place(relx=0.5, rely=0.75, anchor = CENTER)
 
-        self.start_button = Button(self.instructions,text="Start", state=NORMAL, command = self.start, **button_config)
+        self.start_button = Button(self.instructions,text="Start", state=DISABLED, command = self.start, **button_config)
         self.start_button.place(**button_place)
-
+        
         try:
-            #self.server = MuseServer(self, self.gather_data())
-            self.server = MuseServer(self)
+            self.server = MuseServer(self, self.user_data)
         except (ServerError, err) as e:
             print(e)
             sys.exit()
         else:
             self.server.start()
-
-       # self.check_enable()
+        self.check_enable()
 
     def set_horseshoe(self, l_ear, l_forehead, r_forehead, r_ear):
         if l_ear == 1 and l_forehead == 1 and r_forehead == 1 and r_ear == 1:
             if self.good_connection == False:
                 self.good_connection = True
                 self.time_good_connection_started = time.time()
-                self.horseshoe.set("start LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
+                self.horseshoe.set("LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
             elif time.time() - self.time_good_connection_started >= 5:
-                self.horseshoe.set("5seco LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
                 self.enable_button = True
+                self.horseshoe.set("Good Connection acquired!")
             else:
-                self.horseshoe.set("%i LE %i LF %i RF %i RE %i" % (time.time() - self.time_good_connection_started,l_ear,l_forehead,r_forehead,r_ear))
+                self.horseshoe.set("LE %i LF %i RF %i RE %i\n%i Seconds left" 
+                % (l_ear,l_forehead,r_forehead,r_ear,6 - time.time() + self.time_good_connection_started))
         else:
             self.good_connection = False
             self.enable_button = False
-            self.horseshoe.set("stopp LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
+            self.horseshoe.set("LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
 
     def check_enable(self):
         if self.enable_button == True:
@@ -194,8 +195,8 @@ class MainGui():
         self.countdown_label.place(relx=0.5, rely=0.5, anchor = CENTER)
         self.started = True
         self.next = False
-        self.countdown(3)
-        videos = ["trump", "maradona"]
+        self.countdown(10)
+        videos = ["30s - Trump.mp4", "30s - Maradona.mp4", "30s - Gretzky.mp4", "30s - Malvinas.mp4", "40s - Malvinas.mp4"]
         self.wait_and_play(videos)
 
     def countdown(self, secs):
@@ -208,13 +209,25 @@ class MainGui():
     def wait_and_play(self, videos):
         if self.next == True:
             video = videos.pop()
-            print(video)
+            play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f','--no-video-title', '../res/' + video])
+            self.video_playing = 1
+            play_subprocess.wait()
+            self.video_playing = 0
             self.next = False
-            self.countdown(3)
+            self.countdown(10)
             if len(videos) > 0:
                 self.wait_and_play(videos)
+            else:
+                self.exit()
         else:
             self.root.after(50, self.wait_and_play, videos)
+
+    def exit(self):
+        if self.next == True:
+            self.stop = True
+            self.countdown_label.config(text = "Thank you for collaborating!\nPress <Escape> to Exit.", font=("Arial",80))
+        else:
+            self.root.after(50, self.exit)
 
     #TODO 01: fix fonts
     def display_form(self):
