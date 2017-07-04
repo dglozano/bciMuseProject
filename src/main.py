@@ -1,103 +1,12 @@
 from tkinter import *
+from tkinter import font
 from tkinter import messagebox
-from ExampleOSCServer import MuseServer
+from OSCServer import MuseServer
+# Try to refactor this import later
+from style import * 
 import subprocess
 import time
 import csv
-
-#run this before muse-io --device 00:06:66:78:45:25 --osc osc.udp://localhost:5000
-
-green_l = '#e3eadb'
-green_lm = '#d0ddba'
-green_m = '#b2cca2'
-green_dm = '#9eb47e'
-green_d = '#9dae6d'
-red_disabled = "#ff3d3d"
-
-form_label_config = {
-    "fg": green_l,
-    "bg": green_dm,
-    "font": ("Arial", 30)
-}
-
-form_label_position = {
-    "relwidth": 0.20,
-    "relx":0.15,
-    "relheight":0.07
-}
-
-form_entry_config = {
-    "fg": green_dm,
-    "bg": green_l,
-    "font": ("Arial", 30),
-    "relief": FLAT,
-}
-
-form_entry_position = {
-    "relwidth": 0.50,
-    "relx":0.35,
-    "relheight":0.07
-}
-
-radio_button_config = {
-    "font":("Arial",30),
-    "bg":green_d,
-    "fg":green_l,
-    "relief":RAISED,
-    "anchor":CENTER,
-    "cursor":"mouse",
-    "borderwidth":0,
-    "activeforeground":green_l,
-    "activebackground":green_m,
-    "selectcolor":green_m,
-    "indicatoron":0,
-}
-
-button_config = {
-    "font": ("Arial", 30),
-    "bg": green_dm,
-    "fg": green_l,
-    "activebackground": green_m,
-    "activeforeground": green_l,
-    "disabledforeground": red_disabled
-}
-
-button_place = {
-    "relx": 0.50,
-    "rely": 0.915,
-    "anchor": CENTER,
-    "relwidth": 0.35,
-    "relheight": 0.07
-}
-
-container_place = {
-    "relwidth":0.7,
-    "relx":0.15,
-    "relheight":1.0,
-    "rely":0.0
-}
-
-title_place = {
-    "relwidth":0.8,
-    "relx":0.10,
-    "relheight":0.15,
-    "rely":0.05
-}
-
-instructions_text_config = {
-    "font": ("Arial", 25),
-    "fg": green_d,
-    "bg": "white",
-    "bd": 0,
-    "justify":CENTER,
-    "width":800
-}
-
-question_position = {
-    "relwidth": 0.8,
-    "relx": 0.10,
-    "relheight": 0.07
-}
 
 class MainGui():
     def __init__(self):
@@ -134,9 +43,11 @@ class MainGui():
 
         title = Label(self.instructions, text="Instructions", fg=green_d, bg="white", font=("Arial", 52))
         title.place(**title_place)
-
-        instructions_text = Message(self.instructions, text = "Put the Muse headband tight on your forehead and behind your ears. The indicators below show if the sensors are well connected or not (1 for good connection, 4 for bad). Adjust them until you get a good connection for more than 5 seconds and press Start to continue. You will 5 videos of around 30 seconds each with a 10 seconds gap between each one. Try to remind quiet, with no head movement and blinking as less as possible. Thanks!", **instructions_text_config)
-        instructions_text.place(relx=0.15, rely=0.25, relwidth=0.7)
+        
+        with open("../res/instructions.txt", "r") as f:
+            instructions_content = f.read()
+            instructions_text = Message(self.instructions, text = instructions_content, **instructions_text_config)
+            instructions_text.place(relx=0.15, rely=0.25, relwidth=0.7)
 
         self.horseshoe = StringVar()
         self.horseshoe.set("Muse is not connected")
@@ -215,7 +126,7 @@ class MainGui():
     def wait_and_play(self, videos):
         if self.next == True:
             video = videos.pop()
-            play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f','--no-video-title', '../res/' + video])
+            play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f','--no-video-title', '../res/videos/' + video])
             self.video_playing = 1
             play_subprocess.wait()
             self.video_playing = 0
@@ -300,7 +211,7 @@ class MainGui():
         self.form = Frame(self.root, bg=green_d)
         title = Label(self.form, text="Subject's Data Form", fg=green_l, bg=green_dm, font=("Arial", 52))
 
-        number_label = Label(self.form, text="Subject's number", **form_label_config)
+        number_label = Label(self.form, text="Number", **form_label_config)
         self.number_entry = Entry(self.form,  **form_entry_config)
         self.number_entry.focus_set()
 
