@@ -87,3 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Do not save the experiments data in a public repository:
+experiments/
