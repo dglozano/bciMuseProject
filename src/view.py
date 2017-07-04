@@ -3,6 +3,7 @@ from tkinter import messagebox
 from ExampleOSCServer import MuseServer
 import subprocess
 import time
+import csv
 
 #run this before muse-io --device 00:06:66:78:45:25 --osc osc.udp://localhost:5000
 
@@ -77,8 +78,8 @@ container_place = {
 }
 
 title_place = {
-    "relwidth":0.7,
-    "relx":0.15,
+    "relwidth":0.8,
+    "relx":0.10,
     "relheight":0.15,
     "rely":0.05
 }
@@ -90,6 +91,12 @@ instructions_text_config = {
     "bd": 0,
     "justify":CENTER,
     "width":800
+}
+
+question_position = {
+    "relwidth": 0.8,
+    "relx": 0.10,
+    "relheight": 0.07
 }
 
 class MainGui():
@@ -128,7 +135,7 @@ class MainGui():
         title = Label(self.instructions, text="Instructions", fg=green_d, bg="white", font=("Arial", 52))
         title.place(**title_place)
 
-        instructions_text = Message(self.instructions, text = "BlabldslkafajslkfdsdafjsakdasfdjlksaBlabldslkafajslkfdsdafjsakdasfdjlksafjldsakfdsafsjdalfksakladfjaksdfjsaldfjfjldsakfdsafsjdalfksakladfjaksdfjsaldfj", **instructions_text_config)
+        instructions_text = Message(self.instructions, text = "Put the Muse headband tight on your forehead and behind your ears. The indicators below show if the sensors are well connected or not (1 for good connection, 4 for bad). Adjust them until you get a good connection for more than 5 seconds and press Start to continue. You will 5 videos of around 30 seconds each with a 10 seconds gap between each one. Try to remind quiet, with no head movement and blinking as less as possible. Thanks!", **instructions_text_config)
         instructions_text.place(relx=0.15, rely=0.25, relwidth=0.7)
 
         self.horseshoe = StringVar()
@@ -176,12 +183,11 @@ class MainGui():
             self.start_button.after(100, self.check_enable)
 
     def gather_data(self):
-        first_name = self.first_name_entry.get()
-        last_name = self.last_name_entry.get()
+        subject_number = self.number_entry.get()
         age = self.age_entry.get()
         gender = self.gender_choice.get()
         nationality = self.nationality.get()
-        return (first_name, last_name, age, gender, nationality)
+        return (subject_number, age, gender, nationality)
 
     def is_complete(self):
         for val in self.user_data:
@@ -196,7 +202,7 @@ class MainGui():
         self.started = True
         self.next = False
         self.countdown(10)
-        videos = ["30s - Trump.mp4", "30s - Maradona.mp4", "30s - Gretzky.mp4", "30s - Malvinas.mp4", "40s - Malvinas.mp4"]
+        videos = ["37s - Canada WWII.avi", "30s - Maradona.mp4", "30s - Trump.mp4", "37s - Crosby.mp4", "40s - Malvinas.mp4"]
         self.wait_and_play(videos)
 
     def countdown(self, secs):
@@ -218,28 +224,85 @@ class MainGui():
             if len(videos) > 0:
                 self.wait_and_play(videos)
             else:
-                self.exit()
+                self.wait_and_final_form()
         else:
             self.root.after(50, self.wait_and_play, videos)
 
-    def exit(self):
+    def wait_and_final_form(self):
         if self.next == True:
             self.stop = True
-            self.countdown_label.config(text = "Thank you for collaborating!\nPress <Escape> to Exit.", font=("Arial",80))
+            self.countdown_label.destroy()
+            self.final_form()
         else:
-            self.root.after(50, self.exit)
+            self.root.after(50, self.wait_and_final_form)
+
+    #TODO 02: Refactorear
+    def final_form(self):
+        self.form = Frame(self.root, bg=green_d)
+
+        self.form.place(**container_place)
+
+        canadaWWII_label = Label(self.form, text="Do you know about Canadian role in WW II?", **form_label_config)
+        canadaWWII_label.place(rely = 0.05, **question_position)
+        self.canadaWWII = IntVar()
+        yes_canadaWWII = Radiobutton(self.form,text="Yes",value=1,variable=self.canadaWWII,**radio_button_config)
+        no_canadaWWII = Radiobutton(self.form,text="No",value=0,variable=self.canadaWWII,**radio_button_config)
+        yes_canadaWWII.place(rely=0.14, relwidth = 0.15, relx = 0.325, relheight = 0.05)
+        no_canadaWWII.place(rely=0.14, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+
+        malvinas_label = Label(self.form, text="Do you know what was the Falkland Islands' conflict?", **form_label_config)
+        malvinas_label.place(rely=0.21, **question_position)
+        self.malvinas = IntVar()
+        yes_malvinas = Radiobutton(self.form,text="Yes",value=1,variable=self.malvinas,**radio_button_config)
+        no_malvinas = Radiobutton(self.form,text="No",value=0,variable=self.malvinas,**radio_button_config)
+        yes_malvinas.place(rely=0.30, relwidth = 0.15, relx = 0.325, relheight = 0.05)
+        no_malvinas.place(rely=0.30, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+
+        maradona_label = Label(self.form, text="Do you know who Diego Maradona is?", **form_label_config)
+        maradona_label.place(rely=0.37, **question_position)
+        self.maradona = IntVar()
+        yes_maradona = Radiobutton(self.form,text="Yes",value=1,variable=self.maradona,**radio_button_config)
+        no_maradona = Radiobutton(self.form,text="No",value=0,variable=self.maradona,**radio_button_config)
+        yes_maradona.place(rely=0.46, relwidth = 0.15, relx = 0.325, relheight = 0.05)
+        no_maradona.place(rely=0.46, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+
+        crosby_label = Label(self.form, text="Do you know who Sidney Crosby is?", **form_label_config)
+        crosby_label.place(rely=0.53, **question_position)
+        self.crosby = IntVar()
+        yes_crosby = Radiobutton(self.form,text="Yes",value=1,variable=self.crosby,**radio_button_config)
+        no_crosby = Radiobutton(self.form,text="No",value=0,variable=self.crosby,**radio_button_config)
+        yes_crosby.place(rely=0.62, relwidth = 0.15, relx = 0.325, relheight = 0.05)
+        no_crosby.place(rely=0.62, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+
+        trump_label = Label(self.form, text="Do you know who Donald Trump is?", **form_label_config)
+        trump_label.place(rely=0.69, **question_position)
+        self.trump = IntVar()
+        yes_trump = Radiobutton(self.form,text="Yes",value=1,variable=self.trump,**radio_button_config)
+        no_trump = Radiobutton(self.form,text="No",value=0,variable=self.trump,**radio_button_config)
+        yes_trump.place(rely=0.78, relwidth = 0.15, relx = 0.325, relheight = 0.05)
+        no_trump.place(rely=0.78, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+
+        continue_button = Button(self.form,text="Continue", command = self.exit_form_submit, **button_config)
+        continue_button.bind("<Return>", self.exit_form_submit)
+        continue_button.place(**button_place)
+
+    def exit_form_submit(self):
+        self.form.destroy()
+        with open("experiments/%s-%s.csv" % (self.user_data[3], self.user_data[0]), 'a', newline='') as csvfile:
+            eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            eegwriter.writerow([self.canadaWWII.get(), self.malvinas.get(), self.maradona.get(), self.crosby.get(), self.trump.get()]) 
+        label = Label(self.root, text="", fg = green_d, bg = "white", font=("Arial",80))
+        label.config(text = "Thank you for collaborating!\nPress <Escape> to Exit.")
+        label.place(relx=0.5, rely=0.5, anchor = CENTER)
 
     #TODO 01: fix fonts
     def display_form(self):
         self.form = Frame(self.root, bg=green_d)
         title = Label(self.form, text="Subject's Data Form", fg=green_l, bg=green_dm, font=("Arial", 52))
 
-        first_name_label = Label(self.form, text="First Name", **form_label_config)
-        self.first_name_entry = Entry(self.form,  **form_entry_config)
-        self.first_name_entry.focus_set()
-
-        last_name_label = Label(self.form, text="Last Name", **form_label_config)
-        self.last_name_entry = Entry(self.form,  **form_entry_config)
+        number_label = Label(self.form, text="Subject's number", **form_label_config)
+        self.number_entry = Entry(self.form,  **form_entry_config)
+        self.number_entry.focus_set()
 
         age_label = Label(self.form, text="Age", **form_label_config)
         self.age_entry = Entry(self.form,  **form_entry_config)
@@ -265,23 +328,20 @@ class MainGui():
         self.form.place(**container_place)
         title.place(**title_place)
 
-        first_name_label.place(rely=0.25, **form_label_position)
-        self.first_name_entry.place(rely=0.25, **form_entry_position)
+        number_label.place(rely=0.25, **form_label_position)
+        self.number_entry.place(rely=0.25, **form_entry_position)
 
-        last_name_label.place(rely=0.37, **form_label_position)
-        self.last_name_entry.place(rely=0.37, **form_entry_position)
+        age_label.place(rely=0.37, **form_label_position)
+        self.age_entry.place(rely=0.37, **form_entry_position)
 
-        age_label.place(rely=0.49, **form_label_position)
-        self.age_entry.place(rely=0.49, **form_entry_position)
-
-        gender_label.place(rely=0.61, **form_label_position)
-        gender_frame.place(rely=0.61, **form_entry_position)
+        gender_label.place(rely=0.49, **form_label_position)
+        gender_frame.place(rely=0.49, **form_entry_position)
         radio_male.place(relx=0, rely=0, relheight=1, relwidth=0.33)
         radio_female.place(relx=0.33, rely=0, relheight=1, relwidth=0.33)
         radio_other.place(relx=0.66, rely=0, relheight=1, relwidth=0.34)
 
-        nationality_label.place(rely=0.73, **form_label_position)
-        nationality_frame.place(rely=0.73, **form_entry_position)
+        nationality_label.place(rely=0.61, **form_label_position)
+        nationality_frame.place(rely=0.61, **form_entry_position)
         radio_arg.place(relx=0, rely=0, relheight=1,relwidth=0.5)
         radio_cad.place(relx=0.5, rely=0, relheight=1,relwidth=0.5)
 

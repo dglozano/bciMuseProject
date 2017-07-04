@@ -2,26 +2,24 @@ from liblo import *
 
 import sys
 import time
-import pickle
 import csv
 
 class MuseServer(ServerThread):
     #listen for messages on port 5000
     def __init__(self, gui, args):
         self.gui = gui
-        first_name, self.last_name, age, gender, self.nationality = args
-        with open("%s-%s.csv" % (self.last_name, self.nationality), 'a', newline='') as csvfile:
+        self.subject_number, age, gender, self.nationality = args
+        with open("experiments/%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
             eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            eegwriter.writerow([first_name, self.last_name, age, gender, self.nationality])  
+            eegwriter.writerow([self.subject_number, age, gender, self.nationality])  
         ServerThread.__init__(self, 5000)
 
     #receive EEG data
     @make_method('/muse/eeg', 'ffffii')
     def eeg_callback(self, path, args):
         if self.gui.started == True and self.gui.stop == False:
-            print(args)
             l_ear, l_forehead, r_forehead, r_ear, sec, microsec = args
-            with open("%s-%s.csv" % (self.last_name, self.nationality), 'a', newline='') as csvfile:
+            with open("experiments/%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
                 eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 eegwriter.writerow([l_ear, l_forehead, r_forehead, r_ear, sec, microsec, self.gui.video_playing])
 

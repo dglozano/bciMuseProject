@@ -1,5 +1,5 @@
 1
-00:00:01,000 --> 00:00:05,500
+00:00:01,000 --> 00:00:02,500
 En la final de la Stanley Cup, Gretzky
 marcó dos goles en el primer tiempo
 
@@ -37,8 +37,4 @@ mayor goleador de todos los tiempos
 en la National Hockey League y lo hizo
 con muchísima clase!
 
-8
-00:00:25,000 --> 00:00:30,000
-en la National Hockey League y lo hizo
-con muchísima clase!
 
