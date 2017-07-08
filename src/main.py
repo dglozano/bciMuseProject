@@ -114,6 +114,7 @@ class MainGui():
         self.next = False
         self.countdown(10)
         videos = ["37s - Canada WWII.avi", "30s - Maradona.mp4", "30s - Trump.mp4", "37s - Crosby.mp4", "40s - Malvinas.mp4"]
+        videos = ["30s - Maradona.mp4"]
         self.wait_and_play(videos)
 
     def countdown(self, secs):
@@ -199,7 +200,7 @@ class MainGui():
 
     def exit_form_submit(self):
         self.form.destroy()
-        with open("experiments/%s-%s.csv" % (self.user_data[3], self.user_data[0]), 'a', newline='') as csvfile:
+        with open("../experiments/%s-%s.csv" % (self.user_data[3], self.user_data[0]), 'a', newline='') as csvfile:
             eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             eegwriter.writerow([self.canadaWWII.get(), self.malvinas.get(), self.maradona.get(), self.crosby.get(), self.trump.get()]) 
         label = Label(self.root, text="", fg = green_d, bg = "white", font=("Arial",80))
