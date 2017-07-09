@@ -1,20 +1,20 @@
 from tkinter import *
 from tkinter import font
 from tkinter import messagebox
-from OSCServer import MuseServer
+from controller import Controller
+
 # Try to refactor this import later
 from style import * 
 import subprocess
 import time
-import csv
-
 
 class MainGui():
-    def __init__(self, app):
-        self.app = app
+    def __init__(self):
+        self.app = Controller(self)
         self.root = Tk()
         self.root.configure(background=green_lm)
         self.fullscreen()
+        self.initial_form()
         self.root.mainloop()
 
     def fullscreen(self):
@@ -46,7 +46,7 @@ class MainGui():
         label = Label(self.instructions, textvariable=self.horseshoe, fg = green_d, bg = "white", font=("Arial",30))
         label.place(relx=0.5, rely=0.75, anchor = CENTER)
 
-        self.start_button = Button(self.instructions,text="Start", state=DISABLED, command = self.start, **button_config)
+        self.start_button = Button(self.instructions,text="Start", state=DISABLED, command = self.app.start, **button_config)
         self.start_button.place(**button_place)
     
         self.check_enable()
@@ -77,7 +77,7 @@ class MainGui():
         self.countdown_label.place(relx=0.5, rely=0.5, anchor = CENTER)
         self.next = False
         self.countdown(countdown_length)
-        self.wait_and_play(videos)
+        self.wait_and_play(videos, countdown_length)
 
     def countdown(self, secs):
         if secs > 0:
@@ -100,7 +100,7 @@ class MainGui():
             else:
                 self.wait_and_final_form()
         else:
-            self.root.after(50, self.wait_and_play, videos)
+            self.root.after(50, self.wait_and_play, videos, countdown_length)
 
     def wait_and_final_form(self):
         if self.next == True:
@@ -215,7 +215,7 @@ class MainGui():
         no_trump.place(rely=0.78, relwidth = 0.15, relx = 0.525, relheight = 0.05)
 
         continue_button = Button(self.form,text="Continue", command = self.app.exit_form_submit, **button_config)
-        continue_button.bind("<Return>", self.exit_form_submit)
+        continue_button.bind("<Return>", self.app.exit_form_submit)
         continue_button.place(**button_place)
 
     def goodbye_message(self, msg):

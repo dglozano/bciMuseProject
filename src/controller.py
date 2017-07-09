@@ -1,30 +1,25 @@
-from tkinter import *
-from tkinter import font
-from tkinter import messagebox
 from OSCServer import MuseServer
-from gui import MainGui
 # Try to refactor this import later
-from style import * 
 import subprocess
 import time
 import csv
 
 
-class RunExperimentApp():
-    def __init__(self):
-        self.view = MainGui(self); 
+class Controller():
+    def __init__(self, gui):
+        self.view = gui; 
         self.started = False
-        self.stop = False
+        self.stopped = False
         self.video_playing = 0
         self.videos = ["37s - Canada WWII.avi", "30s - Maradona.mp4", "30s - Trump.mp4", "37s - Crosby.mp4", "40s - Malvinas.mp4"]
-        self.view.initial_form()
 
     def continue_to_instructions(self, event = None):
         self.user_data = self.view.gather_data()
         if self.is_complete() == False:
-            self.view.showerror("You must complete the form to proccede. Try Again.")
+            self.view.show_error("You must complete the form to proccede. Try Again.")
         else:
             self.start_muse_server()
+            self.enable_button = False
             self.view.instructions(self.get_instructions())
 
     def get_instructions(self):
@@ -52,7 +47,7 @@ class RunExperimentApp():
                 self.enable_button = True
                 #self.view.update_horseshoe()
             else:
-                time_remaining = 6 - time.time() + self.time_good_connection_started))
+                time_remaining = 6 - time.time() + self.time_good_connection_started
                 self.view.update_horseshoe(l_ear, l_forehead, r_forehead, r_ear, time_remaining)
         else:
             self.good_connection = False
@@ -71,7 +66,7 @@ class RunExperimentApp():
         self.view.play_videos(videos = self.videos, countdown_length = 10)
 
     def stop(self):
-        self.stop = True
+        self.stopped = True
         self.view.final_form()
 
     def exit_form_submit(self):
@@ -82,4 +77,4 @@ class RunExperimentApp():
         self.view.goodbye_message("Thank you for collaborating!\nPress <Escape> to Exit.")
 
 if __name__ == '__main__':
-    MainGui() 
+    Controller() 
