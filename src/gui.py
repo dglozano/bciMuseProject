@@ -1,9 +1,9 @@
+#!/usr/bin/env python3
+
 from tkinter import *
 from tkinter import font
 from tkinter import messagebox
 from controller import Controller
-
-# Try to refactor this import later
 from style import * 
 import subprocess
 import time
@@ -38,7 +38,7 @@ class MainGui():
         title.place(**title_place)
         
         instructions_text = Message(self.instructions, text = instructions_content, **instructions_text_config)
-        instructions_text.place(relx=0.15, rely=0.25, relwidth=0.7)
+        instructions_text.place(relx=0.15, rely=0.20, relwidth=0.7)
 
         self.horseshoe = StringVar()
         self.horseshoe.set("Muse is not connected")

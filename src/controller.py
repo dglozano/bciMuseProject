@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 from OSCServer import MuseServer
-# Try to refactor this import later
+
 import subprocess
 import time
 import csv
