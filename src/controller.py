@@ -14,21 +14,16 @@ class Controller():
         self.stopped = False
         self.video_playing = 0
         self.videos = ["37s - Canada WWII.avi", "30s - Maradona.mp4", "30s - Trump.mp4", "37s - Crosby.mp4", "40s - Malvinas.mp4"]
+        self.subtitles = ["Canada WWII.srt", "Maradona.srt", "Trump.srt", "Crosby.srt", "Malvinas.srt"]
 
     def continue_to_instructions(self, event = None):
         self.user_data = self.view.gather_data()
         if self.is_complete() == False:
-            self.view.show_error("You must complete the form to proccede. Try Again.")
+                self.view.show_error()
         else:
             self.start_muse_server()
             self.enable_button = False
-            self.view.instructions(self.get_instructions())
-
-    def get_instructions(self):
-        instructions_text = "Instructions could not be loaded. Ask the professor for help."
-        with open("../res/instructions.txt", "r") as f:
-                instructions_text = f.read()
-        return instructions_text
+            self.view.instructions()
 
     def start_muse_server(self):
         try:
@@ -65,7 +60,7 @@ class Controller():
     def start(self):
         self.started = True
         self.next = False
-        self.view.play_videos(videos = self.videos, countdown_length = 10)
+        self.view.play_videos(videos = self.videos, countdown_length = 10, subtitles = self.subtitles)
 
     def stop(self):
         self.stopped = True
@@ -76,7 +71,7 @@ class Controller():
         with open("../experiments/%s-%s.csv" % (self.user_data[3], self.user_data[0]), 'a', newline='') as csvfile:
             eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             eegwriter.writerow(answers) 
-        self.view.goodbye_message("Thank you for collaborating!\nPress <Escape> to Exit.")
+        self.view.goodbye_message()
 
 if __name__ == '__main__':
     Controller() 

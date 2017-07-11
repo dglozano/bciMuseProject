@@ -1,8 +1,0 @@
-Put the Muse headband tight on your forehead and behind your ears. The indicators below show
-if the quality of the signal that the sensorsare receiving is good or not: 1 indicates it is
-perfect whereas a 4 means it is very bad. Adjust the headband until you get a good connection
-that lasts, at least, more than 5 seconds. Afterwards, press Start to continue with the
-experiment. Five videos of 30 seconds each will be displayed, with a 10 seconds gap between
-each of them. Try to stay quiet, do not move your body nor your head, and do not blink too much.
-
-Thanks!
