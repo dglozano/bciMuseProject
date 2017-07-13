@@ -33,23 +33,10 @@ str_initial_form = {
     "esp": initial_form_esp,
 }
 
-instr_content_eng = """Put the Muse headband tight on your forehead and behind your ears. The indicators below show
-if the quality of the signal that the sensorsare receiving is good or not: 1 indicates it is
-perfect whereas a 4 means it is very bad. Adjust the headband until you get a good connection
-that lasts, at least, more than 5 seconds. Afterwards, press Start to continue with the
-experiment. Five videos of 30 seconds each will be displayed, with a 10 seconds gap between
-each of them. Try to stay quiet, do not move your body nor your head, and do not blink too much.
-
+instr_content_eng = """Put the Muse headband tight on your forehead and behind your ears. The indicators below show if the quality of the signal that the sensors are receiving is good or not: Green indicates it is perfect, Yellow not that good and Red means it is very bad. Adjust the headband until you get a good connection that lasts, at least, more than 5 seconds. Afterwards, press Start to continue with the experiment. Five videos of 30 seconds each will be displayed, with a 10 seconds gap between each of them. Try to stay quiet, do not move your body nor your head, and do not blink too much.
 Thanks!"""
 
-instr_content_esp = """Coloca el Muse Headband bien apretado en tu frente y por detras de tus orejas. Los indicadores
-debajo indican si la calidad de la señal que los sensores están recibiendo es buena o no: un 1
-indica que es buena mientras que un 4 quiere decir que es muy mala. Acomoda el aparato hasta que
-logres una buena conexión que dure, por lo menos, 5 segundos. Luego, presiona el botón "Comenzar"
-para continuar con el experimento. Se van a reproducir cinco videos de 30 segundos cada uno, con un
-intervalo de 10 segundos entre cada uno. Intenta quedarte quieto, sin mover mucho la cabeza ni el
-cuerpo, y no pestañees demasiado.
-
+instr_content_esp = """Coloca el Muse Headband bien apretado en tu frente y por detras de tus orejas. Los indicadores debajo indican si la calidad de la señal que los sensores están recibiendo es buena o no: Verde indica que es perfecta, Amarillo que no es tan buena y Rojo quiere decir que es muy mala. Acomoda el aparato hasta que logres una buena conexión que dure, por lo menos, 5 segundos. Luego, presiona el botón "Comenzar" para continuar con el experimento. Se van a reproducir cinco videos de 30 segundos cadauno, con un intervalo de 10 segundos entre cada uno. Intenta quedarte quieto, sin mover mucho la cabeza ni el cuerpo,y no pestañees demasiado.
 Gracias!"""
 
 instr_eng = {

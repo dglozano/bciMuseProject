@@ -21,9 +21,11 @@ class Controller():
         if self.is_complete() == False:
                 self.view.show_error()
         else:
-            self.start_muse_server()
             self.enable_button = False
+            self.good_connection = False
+            self.muse_connected = False
             self.view.instructions()
+            self.start_muse_server()
 
     def start_muse_server(self):
         try:
@@ -35,21 +37,24 @@ class Controller():
             self.server.start()
 
     def set_horseshoe(self, l_ear, l_forehead, r_forehead, r_ear):
+        self.muse_connected = True
         if l_ear == 1 and l_forehead == 1 and r_forehead == 1 and r_ear == 1:
             if self.good_connection == False:
                 self.good_connection = True
+                self.enable_button = False
                 self.time_good_connection_started = time.time()
                 self.view.update_horseshoe(l_ear,l_forehead,r_forehead,r_ear)
             elif time.time() - self.time_good_connection_started >= 5:
                 self.enable_button = True
-                #self.view.update_horseshoe()
+                self.view.update_horseshoe(l_ear, l_forehead, r_forehead, r_ear, 0)
             else:
                 time_remaining = 6 - time.time() + self.time_good_connection_started
+                self.enable_button = False
                 self.view.update_horseshoe(l_ear, l_forehead, r_forehead, r_ear, time_remaining)
         else:
             self.good_connection = False
             self.enable_button = False
-            self.update_horseshoe(l_ear,l_forehead,r_forehead,r_ear)
+            self.view.update_horseshoe(l_ear,l_forehead,r_forehead,r_ear)
 
     def is_complete(self):
         for val in self.user_data:

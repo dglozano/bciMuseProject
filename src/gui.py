@@ -29,7 +29,6 @@ class MainGui():
         messagebox.showerror("Error", str_initial_form[self.lang]['error'])
 
     def instructions(self):
-        # display nicer the horseshoe
         self.form.destroy()
         self.root.configure(background="white")
         self.instructions = Frame(self.root, bg="white")
@@ -39,28 +38,51 @@ class MainGui():
         title.place(**title_place)
         
         instructions_text = Message(self.instructions, text = str_instr[self.lang]['content'], **instructions_text_config)
-        instructions_text.place(relx=0.15, rely=0.20, relwidth=0.7)
+        instructions_text.place(relx=0.05, rely=0.20, relwidth=0.9)
 
-        self.horseshoe = StringVar()
-        self.horseshoe.set(str_instr[self.lang]['not-connected'])
+        self.seconds_left = StringVar()
+        label_seconds = Label(self.instructions, textvariable=self.seconds_left,
+                                    fg = green_d, bg = "white", font=("Arial",25))
+        label_seconds.place(relx=0.5, rely=0.83, anchor = CENTER)
 
-        label = Label(self.instructions, textvariable=self.horseshoe, fg = green_d, bg = "white", font=("Arial",30))
-        label.place(relx=0.5, rely=0.75, anchor = CENTER)
+        self.l_ear = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
+        self.l_forehead = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
+        self.r_forehead = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
+        self.r_ear = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
+        self.l_ear.place(relx=0.425, rely=0.75, anchor = CENTER)
+        self.l_forehead.place(relx=0.475, rely=0.72, anchor = CENTER)
+        self.r_forehead.place(relx=0.525, rely=0.72, anchor = CENTER)
+        self.r_ear.place(relx=0.575, rely=0.75, anchor = CENTER)
 
-        self.start_button = Button(self.instructions,text=str_instr[self.lang]['start'], command = self.app.start, **button_config)
+        self.start_button = Button(self.instructions,text=str_instr[self.lang]['start'],
+                                    state=DISABLED, command = self.app.start, **button_config)
         self.start_button.place(**button_place)
     
-        #self.check_enable()
+        self.check_enable()
 
     def update_horseshoe(self, l_ear, l_forehead, r_forehead, r_ear, seconds_left=0):
-        self.horseshoe.set("LE %i LF %i RF %i RE %i" % (l_ear,l_forehead,r_forehead,r_ear))
         if seconds_left > 0:
-            self.horseshoe.set("LE %i LF %i RF %i RE %i\n%i Seconds left" 
-            % (l_ear,l_forehead,r_forehead,r_ear,seconds_left))
+            self.seconds_left.set("%i Seconds left" % (seconds_left))
+        elif self.app.muse_connected == True:
+            self.seconds_left.set(" ")
+
+        self.l_ear.config(fg=self.choose_color(l_ear))
+        self.l_forehead.config(fg=self.choose_color(l_forehead))
+        self.r_forehead.config(fg=self.choose_color(r_forehead))
+        self.r_ear.config(fg=self.choose_color(r_ear))
+
+    def choose_color(self, quality):
+        if quality == 4:
+            return red_disabled
+        elif quality == 1:
+            return green_active
+        else:
+            return yellow_almost
 
     def check_enable(self):
         if self.app.enable_button == True:
             self.start_button.config(state=NORMAL)
+            self.start_button.after(100, self.check_enable)
         else:
             self.start_button.config(state=DISABLED)
             self.start_button.after(100, self.check_enable)
@@ -92,8 +114,8 @@ class MainGui():
             video = videos.pop()
             subtitle = subtitles.pop()
             play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f',
-                                                '--sub-file=res/subtitles/'+ self.lang + '-' + subtitle,
-                                                '--no-video-title', 'res/videos/' + video])
+                                                '--sub-file=../res/subtitles/'+ self.lang + '-' + subtitle,
+                                                '--no-video-title', '../res/videos/' + video])
             self.app.video_playing = 1
             play_subprocess.wait()
             self.app.video_playing = 0

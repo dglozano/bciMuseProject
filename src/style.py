@@ -9,6 +9,8 @@ green_m = '#b2cca2'
 green_dm = '#9eb47e'
 green_d = '#9dae6d'
 red_disabled = "#ff3d3d"
+green_active = "#50ff35"
+yellow_almost = "#ff9d34"
 
 form_label_config = {
     "fg": green_l,
@@ -86,7 +88,7 @@ instructions_text_config = {
     "bg": "white",
     "bd": 0,
     "justify":CENTER,
-    "width":800
+    "width":850
 }
 
 question_position = {

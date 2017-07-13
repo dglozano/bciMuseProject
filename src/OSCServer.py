@@ -29,6 +29,6 @@ class MuseServer(ServerThread):
     # Receives horseshoe data and send it only if it hasn't already acquired a good quality
     @make_method('/muse/elements/horseshoe', 'iiii')
     def horseshoe_callback(self, path, args):
-        if self.app.enable_button == False:
+        if self.app.started == False:
             l_ear, l_forehead, r_forehead, r_ear = args
             self.app.set_horseshoe(l_ear, l_forehead, r_forehead, r_ear)
