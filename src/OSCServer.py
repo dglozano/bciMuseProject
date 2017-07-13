@@ -26,7 +26,7 @@ class MuseServer(ServerThread):
                 eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 eegwriter.writerow([l_ear, l_forehead, r_forehead, r_ear, sec, microsec, self.app.video_playing])
 
-    # Receives horseshoe data and send it only if it hasn't already acquired a good quality
+    # Receives horseshoe data
     @make_method('/muse/elements/horseshoe', 'iiii')
     def horseshoe_callback(self, path, args):
         if self.app.started == False:
