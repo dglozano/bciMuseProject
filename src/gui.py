@@ -82,8 +82,8 @@ class MainGui():
             video = videos.pop()
             subtitle = subtitles.pop()
             play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f',
-                                                '--sub-file=../res/subtitles/'+ self.lang + '-' + subtitle,
-                                                '--no-video-title', '../res/videos/' + video])
+                                                '--sub-file=' + self.app.resources_path + 'subtitles/'+ self.lang + '-' + subtitle,
+                                                '--no-video-title', self.app.resources_path + 'videos/' + video])
             self.app.video_playing = 1
             play_subprocess.wait()
             self.app.video_playing = 0

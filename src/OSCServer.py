@@ -11,7 +11,7 @@ class MuseServer(ServerThread):
     def __init__(self, app, args):
         self.app = app
         self.subject_number, age, gender, self.nationality = args
-        with open("../experiments/%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
+        with open(self.app.experiments_path + "%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
             eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             eegwriter.writerow([self.subject_number, age, gender, self.nationality])  
         ServerThread.__init__(self, 5000)
@@ -22,7 +22,7 @@ class MuseServer(ServerThread):
     def eeg_callback(self, path, args):
         if self.app.started == True and self.app.stopped == False:
             l_ear, l_forehead, r_forehead, r_ear, sec, microsec = args
-            with open("../experiments/%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
+            with open(self.app.experiments_path + "%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
                 eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 eegwriter.writerow([l_ear, l_forehead, r_forehead, r_ear, sec, microsec, self.app.video_playing])
 
