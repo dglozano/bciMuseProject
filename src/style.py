@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import font
 
-# ----- Colors ----- #
+# -------------- Colors -------------- #
 
 green_l = '#e3eadb'
 green_lm = '#d0ddba'
@@ -14,56 +14,14 @@ red_disabled = "#ff3d3d"
 green_active = "#50ff35"
 yellow_almost = "#ff9d34"
 
-# ----- Choose Language ----- #
+# -------------- Common -------------- #
 
-# Position
-
-lang_btn_position = {
-    "relx": 0.50,
-    "relwidth": 0.30,
-    "relheight": 0.10,
-    "anchor": CENTER,
-}
-
-# ----- Initial Form ----- #
-
-# Config 
-
-inital_title_config = {
-    "fg": green_l,
-    "bg": green_dm,
-    "font": ("Arial", 52)
-}
-
-initial_gender_radio_config = {
-    "relheight": 1,
-    "relwidth": 0.333,
-    "rely": 0,
-}
+# Config
 
 form_label_config = {
     "fg": green_l,
     "bg": green_dm,
     "font": ("Arial", 30)
-}
-
-form_label_position = {
-    "relwidth": 0.20,
-    "relx":0.15,
-    "relheight":0.07
-}
-
-form_entry_config = {
-    "fg": green_dm,
-    "bg": green_l,
-    "font": ("Arial", 30),
-    "relief": FLAT,
-}
-
-form_entry_position = {
-    "relwidth": 0.50,
-    "relx":0.35,
-    "relheight":0.07
 }
 
 radio_button_config = {
@@ -89,7 +47,9 @@ button_config = {
     "disabledforeground": red_disabled
 }
 
-button_place = {
+# Place
+
+continue_button_place = {
     "relx": 0.50,
     "rely": 0.915,
     "anchor": CENTER,
@@ -111,7 +71,71 @@ title_place = {
     "rely":0.05
 }
 
-instructions_text_config = {
+# -------------- Choose Language -------------- #
+
+# Place
+
+lang_btn_place = {
+    "relx": 0.50,
+    "relwidth": 0.30,
+    "relheight": 0.10,
+    "anchor": CENTER,
+}
+
+# -------------- Initial Form -------------- #
+
+# Config 
+
+inital_title_config = {
+    "fg": green_l,
+    "bg": green_dm,
+    "font": ("Arial", 52)
+}
+
+initial_entry_config = {
+    "fg": green_dm,
+    "bg": green_l,
+    "font": ("Arial", 30),
+    "relief": FLAT,
+}
+
+# Place
+
+initial_gender_radio_place = {
+    "relheight": 1,
+    "relwidth": 0.333,
+    "rely": 0,
+}
+
+initial_nation_radio_place = {
+    "relheight": 1,
+    "relwidth": 0.5,
+    "rely": 0,
+}
+
+initial_label_place = {
+    "relwidth": 0.20,
+    "relx":0.15,
+    "relheight":0.07
+}
+
+initial_entry_place = {
+    "relwidth": 0.50,
+    "relx":0.35,
+    "relheight":0.07
+}
+
+# -------------- Instructions -------------- #
+
+# Config
+
+instr_title_config = {
+    "fg": green_d,
+    "bg": "white",
+    "font": ("Arial", 52)
+}
+
+instr_text_config = {
     "font": ("Arial", 25),
     "fg": green_d,
     "bg": "white",
@@ -120,8 +144,89 @@ instructions_text_config = {
     "width":850
 }
 
-question_position = {
+instr_horseshoe_config = {
+    "text": "⬤",
+    "fg": red_disabled,
+    "bg": "white",
+    "font": ("Arial",35),
+}
+
+instr_secs_left_config = {
+    "fg": green_d,
+    "bg": "white",
+    "font": ("Arial",25)
+}
+
+# Place
+
+instr_secs_left_place = {
+    "relx": 0.5,
+    "rely": 0.83,
+    "anchor": CENTER
+}
+
+instr_text_place = {
+    "relx": 0.05,
+    "rely": 0.20,
+    "relwidth": 0.9
+}
+
+# -------------- Countdown -------------- #
+
+# Config
+
+countdown_config = {
+    "text": "",
+    "fg": green_d,
+    "bg": "white",
+    "font": ("Arial",200)
+}
+
+# Place
+
+countdown_place = {
+    "relx": 0.5,
+    "rely": 0.5,
+    "anchor": CENTER
+}
+
+# -------------- Final Form -------------- #
+
+# Place
+
+question_place = {
     "relwidth": 0.8,
     "relx": 0.10,
     "relheight": 0.07
+}
+
+final_yes_place = {
+    "relwidth": 0.15,
+    "relx": 0.325,
+    "relheight": 0.05
+}
+
+final_no_place = {
+    "relwidth": 0.15,
+    "relx": 0.525,
+    "relheight": 0.05
+}
+
+# -------------- Goodbye Message -------------- #
+
+# Config
+
+goodbye_config = {
+    "text":"",
+    "fg": green_d,
+    "bg": "white",
+    "font": ("Arial",80)
+}
+
+# Place
+
+goodbye_place = {
+    "relx": 0.5,
+    "rely": 0.5,
+    "anchor": CENTER
 }

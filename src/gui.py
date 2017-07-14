@@ -28,41 +28,9 @@ class MainGui():
     def show_error(self):
         messagebox.showerror("Error", str_initial_form[self.lang]['error'])
 
-    def instructions(self):
-        self.form.destroy()
-        self.root.configure(background="white")
-        self.instructions = Frame(self.root, bg="white")
-        self.instructions.place(**container_place)
-
-        title = Label(self.instructions, text=str_instr[self.lang]['title'], fg=green_d, bg="white", font=("Arial", 52))
-        title.place(**title_place)
-        
-        instructions_text = Message(self.instructions, text = str_instr[self.lang]['content'], **instructions_text_config)
-        instructions_text.place(relx=0.05, rely=0.20, relwidth=0.9)
-
-        self.seconds_left = StringVar()
-        label_seconds = Label(self.instructions, textvariable=self.seconds_left,
-                                    fg = green_d, bg = "white", font=("Arial",25))
-        label_seconds.place(relx=0.5, rely=0.83, anchor = CENTER)
-
-        self.l_ear = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
-        self.l_forehead = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
-        self.r_forehead = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
-        self.r_ear = Label(self.instructions, text="⬤",fg=red_disabled, bg = "white", font=("Arial",35))
-        self.l_ear.place(relx=0.425, rely=0.75, anchor = CENTER)
-        self.l_forehead.place(relx=0.475, rely=0.72, anchor = CENTER)
-        self.r_forehead.place(relx=0.525, rely=0.72, anchor = CENTER)
-        self.r_ear.place(relx=0.575, rely=0.75, anchor = CENTER)
-
-        self.start_button = Button(self.instructions,text=str_instr[self.lang]['start'],
-                                    state=DISABLED, command = self.app.start, **button_config)
-        self.start_button.place(**button_place)
-    
-        self.check_enable()
-
     def update_horseshoe(self, l_ear, l_forehead, r_forehead, r_ear, seconds_left=0):
         if seconds_left > 0:
-            self.seconds_left.set("%i Seconds left" % (seconds_left))
+            self.seconds_left.set("%i %s" % (seconds_left, str_instr[self.lang]['secs_left']))
         elif self.app.muse_connected == True:
             self.seconds_left.set(" ")
 
@@ -96,8 +64,8 @@ class MainGui():
 
     def play_videos(self, videos, countdown_length, subtitles):
         self.instructions.destroy()
-        self.countdown_label = Label(self.root, text="", fg = green_d, bg = "white", font=("Arial",200))
-        self.countdown_label.place(relx=0.5, rely=0.5, anchor = CENTER)
+        self.countdown_label = Label(self.root, **countdown_config)
+        self.countdown_label.place(**countdown_place)
         self.next = False
         self.countdown(countdown_length)
         self.wait_and_play(videos, countdown_length, subtitles)
@@ -136,8 +104,8 @@ class MainGui():
 
     def get_answers(self):
         self.form.destroy()
-        canadaWWII =  self.canadaWWII.get()
-        malvinas = self.malvinas.get()
+        canadaWWII =  self.ww2.get()
+        malvinas = self.falkland.get()
         maradona = self.maradona.get()
         crosby = self.crosby.get()
         trump = self.trump.get()
@@ -147,13 +115,17 @@ class MainGui():
         self.form = Frame(self.root, bg=green_lm)
         self.form.place(**container_place)
 
+        # ----- Config ----- #
+
         english_button = Button(self.form,text="English", command = self.english, **button_config)
         english_button.bind("<Return>", self.english)
         spanish_button = Button(self.form,text="Español", command = self.spanish, **button_config)
         spanish_button.bind("<Return>", self.spanish)
 
-        english_button.place(rely=0.425, **lang_btn_position)
-        spanish_button.place(rely=0.575, **lang_btn_position)
+        # ----- Place ----- #
+
+        english_button.place(rely=0.425, **lang_btn_place)
+        spanish_button.place(rely=0.575, **lang_btn_place)
 
     def spanish(self):
         self.lang = 'esp'
@@ -165,16 +137,19 @@ class MainGui():
 
     def initial_form(self):
         self.form.destroy()
+
+        # ----- Config ----- #
+
         self.form = Frame(self.root, bg=green_d)
         
         title = Label(self.form, text = str_initial_form[self.lang]['title'], **inital_title_config)
 
         number_label = Label(self.form, text=str_initial_form[self.lang]['number'], **form_label_config)
-        self.number_entry = Entry(self.form,  **form_entry_config)
+        self.number_entry = Entry(self.form,  **initial_entry_config)
         self.number_entry.focus_set()
 
         age_label = Label(self.form, text=str_initial_form[self.lang]['age'], **form_label_config)
-        self.age_entry = Entry(self.form,  **form_entry_config)
+        self.age_entry = Entry(self.form,  **initial_entry_config)
 
         gender_label = Label(self.form, text=str_initial_form[self.lang]['gender'], **form_label_config)
         gender_frame = Frame(self.form, bg=green_d)
@@ -192,87 +167,110 @@ class MainGui():
         continue_button = Button(self.form,text=str_initial_form[self.lang]['continue'], command = self.app.continue_to_instructions, **button_config)
         continue_button.bind("<Return>", self.app.continue_to_instructions)
 
-        ### Place ### 
+        # ----- Place ----- #
 
         self.form.place(**container_place)
         title.place(**title_place)
 
-        number_label.place(rely=0.25, **form_label_position)
-        self.number_entry.place(rely=0.25, **form_entry_position)
+        number_label.place(rely=0.25, **initial_label_place)
+        self.number_entry.place(rely=0.25, **initial_entry_place)
 
-        age_label.place(rely=0.37, **form_label_position)
-        self.age_entry.place(rely=0.37, **form_entry_position)
+        age_label.place(rely=0.37, **initial_label_place)
+        self.age_entry.place(rely=0.37, **initial_entry_place)
 
-        gender_label.place(rely=0.49, **form_label_position)
-        gender_frame.place(rely=0.49, **form_entry_position)
-        radio_male.place(relx=0, **initial_gender_radio_config)
-        radio_female.place(relx=0.33, **initial_gender_radio_config)
-        radio_other.place(relx=0.66, **initial_gender_radio_config)
+        gender_label.place(rely=0.49, **initial_label_place)
+        gender_frame.place(rely=0.49, **initial_entry_place)
+        radio_male.place(relx=0, **initial_gender_radio_place)
+        radio_female.place(relx=0.33, **initial_gender_radio_place)
+        radio_other.place(relx=0.66, **initial_gender_radio_place)
 
-        nationality_label.place(rely=0.61, **form_label_position)
-        nationality_frame.place(rely=0.61, **form_entry_position)
-        radio_arg.place(relx=0, rely=0, relheight=1,relwidth=0.5)
-        radio_cad.place(relx=0.5, rely=0, relheight=1,relwidth=0.5)
+        nationality_label.place(rely=0.61, **initial_label_place)
+        nationality_frame.place(rely=0.61, **initial_entry_place)
+        radio_arg.place(relx=0, **initial_nation_radio_place)
+        radio_cad.place(relx=0.5, **initial_nation_radio_place)
 
-        continue_button.place(**button_place)
+        continue_button.place(**continue_button_place)
+
+    def instructions(self):
+        self.form.destroy()
+        self.root.configure(background="white")
+        self.seconds_left = StringVar()
+        self.instructions = Frame(self.root, bg="white")
+        self.instructions.place(**container_place)
+
+        # ----- Config ----- #
+
+        title = Label(self.instructions, text=str_instr[self.lang]['title'], **instr_title_config)
+        instructions_text = Message(self.instructions, text = str_instr[self.lang]['content'], **instr_text_config)
+        label_seconds = Label(self.instructions, textvariable=self.seconds_left, **instr_secs_left_config)
+        self.l_ear = Label(self.instructions, **instr_horseshoe_config)
+        self.l_forehead = Label(self.instructions, **instr_horseshoe_config)
+        self.r_forehead = Label(self.instructions, **instr_horseshoe_config)
+        self.r_ear = Label(self.instructions, **instr_horseshoe_config)
+        self.start_button = Button(self.instructions,text=str_instr[self.lang]['start'],
+                                        state=DISABLED, command = self.app.start, **button_config)
+
+        # ----- Place ----- #
+        
+        title.place(**title_place)
+        instructions_text.place(**instr_text_place)
+        label_seconds.place(**instr_secs_left_place)
+        self.l_ear.place(relx=0.425, rely=0.75, anchor = CENTER)
+        self.l_forehead.place(relx=0.475, rely=0.72, anchor = CENTER)
+        self.r_forehead.place(relx=0.525, rely=0.72, anchor = CENTER)
+        self.r_ear.place(relx=0.575, rely=0.75, anchor = CENTER)
+        self.start_button.place(**continue_button_place)
+    
+        self.check_enable()
 
     def final_form(self):
         self.countdown_label.destroy()
         self.form = Frame(self.root, bg=green_d)
-
         self.form.place(**container_place)
 
+        # ----- Vars ----- #
+
+        self.ww2 = IntVar()
+        self.falkland = IntVar()
+        self.maradona = IntVar()
+        self.crosby = IntVar()
+        self.trump = IntVar()
+
+        # ----- Config/Place ----- #
+        
+        self.create_yes_no_question(self.form, 'ww2', self.ww2, 0.05)
+        self.create_yes_no_question(self.form, 'falkland', self.falkland, 0.21)
+        self.create_yes_no_question(self.form, 'maradona', self.maradona, 0.37)
+        self.create_yes_no_question(self.form, 'crosby', self.crosby, 0.53)
+        self.create_yes_no_question(self.form, 'trump', self.trump, 0.69)
+
+        continue_button = Button(self.form,text=str_final_form[self.lang]['continue'],
+                                    command = self.app.exit_form_submit, **button_config)
+        continue_button.bind("<Return>", self.app.exit_form_submit)
+
+        continue_button.place(**continue_button_place)
+
+    def create_yes_no_question(self, parent, q_key, str_var, rely_place):
         yes = str_final_form[self.lang]['yes']
         no = str_final_form[self.lang]['no']
 
-        canadaWWII_label = Label(self.form, text=str_final_form[self.lang]['ww2'], **form_label_config)
-        canadaWWII_label.place(rely = 0.05, **question_position)
-        self.canadaWWII = IntVar()
-        yes_canadaWWII = Radiobutton(self.form,text=yes,value=1,variable=self.canadaWWII,**radio_button_config)
-        no_canadaWWII = Radiobutton(self.form,text=no,value=0,variable=self.canadaWWII,**radio_button_config)
-        yes_canadaWWII.place(rely=0.14, relwidth = 0.15, relx = 0.325, relheight = 0.05)
-        no_canadaWWII.place(rely=0.14, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+        # ----- Config ----- #
 
-        malvinas_label = Label(self.form, text=str_final_form[self.lang]['falkland'], **form_label_config)
-        malvinas_label.place(rely=0.21, **question_position)
-        self.malvinas = IntVar()
-        yes_malvinas = Radiobutton(self.form,text=yes,value=1,variable=self.malvinas,**radio_button_config)
-        no_malvinas = Radiobutton(self.form,text=no,value=0,variable=self.malvinas,**radio_button_config)
-        yes_malvinas.place(rely=0.30, relwidth = 0.15, relx = 0.325, relheight = 0.05)
-        no_malvinas.place(rely=0.30, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+        question_label = Label(parent, text = str_final_form[self.lang][q_key], **form_label_config)
+        answer_yes = Radiobutton(parent, text = yes, value=1, variable = str_var, **radio_button_config)
+        answer_no = Radiobutton(parent, text = no, value=0, variable = str_var, **radio_button_config)
 
-        maradona_label = Label(self.form, text=str_final_form[self.lang]['maradona'], **form_label_config)
-        maradona_label.place(rely=0.37, **question_position)
-        self.maradona = IntVar()
-        yes_maradona = Radiobutton(self.form,text=yes,value=1,variable=self.maradona,**radio_button_config)
-        no_maradona = Radiobutton(self.form,text=no,value=0,variable=self.maradona,**radio_button_config)
-        yes_maradona.place(rely=0.46, relwidth = 0.15, relx = 0.325, relheight = 0.05)
-        no_maradona.place(rely=0.46, relwidth = 0.15, relx = 0.525, relheight = 0.05)
+        # ----- Place ----- #
 
-        crosby_label = Label(self.form, text=str_final_form[self.lang]['crosby'], **form_label_config)
-        crosby_label.place(rely=0.53, **question_position)
-        self.crosby = IntVar()
-        yes_crosby = Radiobutton(self.form,text=yes,value=1,variable=self.crosby,**radio_button_config)
-        no_crosby = Radiobutton(self.form,text=no,value=0,variable=self.crosby,**radio_button_config)
-        yes_crosby.place(rely=0.62, relwidth = 0.15, relx = 0.325, relheight = 0.05)
-        no_crosby.place(rely=0.62, relwidth = 0.15, relx = 0.525, relheight = 0.05)
-
-        trump_label = Label(self.form, text=str_final_form[self.lang]['trump'], **form_label_config)
-        trump_label.place(rely=0.69, **question_position)
-        self.trump = IntVar()
-        yes_trump = Radiobutton(self.form,text=yes,value=1,variable=self.trump,**radio_button_config)
-        no_trump = Radiobutton(self.form,text=no,value=0,variable=self.trump,**radio_button_config)
-        yes_trump.place(rely=0.78, relwidth = 0.15, relx = 0.325, relheight = 0.05)
-        no_trump.place(rely=0.78, relwidth = 0.15, relx = 0.525, relheight = 0.05)
-
-        continue_button = Button(self.form,text=str_final_form[self.lang]['continue'], command = self.app.exit_form_submit, **button_config)
-        continue_button.bind("<Return>", self.app.exit_form_submit)
-        continue_button.place(**button_place)
-
+        question_label.place(rely = rely_place, **question_place)
+        answer_yes.place(rely = rely_place + 0.09, **final_yes_place)
+        answer_no.place(rely = rely_place + 0.09, **final_no_place)
+    
     def goodbye_message(self):
-        label = Label(self.root, text="", fg = green_d, bg = "white", font=("Arial",80))
+        label = Label(self.root, **goodbye_config)
         label.config(text = str_final_form[self.lang]['goodbye'])
-        label.place(relx=0.5, rely=0.5, anchor = CENTER)
+        label.place(**goodbye_place)
+
 
 if __name__ == '__main__':
     MainGui() 

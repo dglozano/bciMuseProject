@@ -1,3 +1,6 @@
+
+# -------------- Initial Form -------------- #
+
 initial_form_eng = {
     "title": "Subject's Form Data",
     "number": "Number",
@@ -33,6 +36,8 @@ str_initial_form = {
     "esp": initial_form_esp,
 }
 
+# -------------- Instructions -------------- #
+
 instr_content_eng = """Put the Muse headband tight on your forehead and behind your ears. The indicators below show if the quality of the signal that the sensors are receiving is good or not: Green indicates it is perfect, Yellow not that good and Red means it is very bad. Adjust the headband until you get a good connection that lasts, at least, more than 5 seconds. Afterwards, press Start to continue with the experiment. Five videos of 30 seconds each will be displayed, with a 10 seconds gap between each of them. Try to stay quiet, do not move your body nor your head, and do not blink too much.
 Thanks!"""
 
@@ -43,20 +48,24 @@ instr_eng = {
     "title": "Instructions",
     "content": instr_content_eng,
     "not-connected": "Muse is not connected",
-    "start": "Start"
+    "start": "Start",
+    "secs_left": "Seconds left"
 }
 
 instr_esp = {
     "title": "Instrucciones",
     "content": instr_content_esp,
     "not-connected": "Muse no está conectado",
-    "start": "Comenzar"
+    "start": "Comenzar",
+    "secs_left": "Segundos restantes"
 }
 
 str_instr = {
     "eng": instr_eng,
     "esp": instr_esp,
 }
+
+# -------------- Final Form -------------- #
 
 str_final_form_eng = {
     "ww2" : "Do you know about Canadian role in WW II?",

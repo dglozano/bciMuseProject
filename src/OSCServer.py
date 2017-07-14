@@ -20,7 +20,7 @@ class MuseServer(ServerThread):
     # that indicates if the countdown is being shown (0) or a video is being played (1)
     @make_method('/muse/eeg', 'ffffii')
     def eeg_callback(self, path, args):
-        if self.app.started == True and self.app.stop == False:
+        if self.app.started == True and self.app.stopped == False:
             l_ear, l_forehead, r_forehead, r_ear, sec, microsec = args
             with open("../experiments/%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
                 eegwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
