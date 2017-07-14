@@ -3,6 +3,8 @@
 from tkinter import *
 from tkinter import font
 
+# ----- Colors ----- #
+
 green_l = '#e3eadb'
 green_lm = '#d0ddba'
 green_m = '#b2cca2'
@@ -11,6 +13,33 @@ green_d = '#9dae6d'
 red_disabled = "#ff3d3d"
 green_active = "#50ff35"
 yellow_almost = "#ff9d34"
+
+# ----- Choose Language ----- #
+
+# Position
+
+lang_btn_position = {
+    "relx": 0.50,
+    "relwidth": 0.30,
+    "relheight": 0.10,
+    "anchor": CENTER,
+}
+
+# ----- Initial Form ----- #
+
+# Config 
+
+inital_title_config = {
+    "fg": green_l,
+    "bg": green_dm,
+    "font": ("Arial", 52)
+}
+
+initial_gender_radio_config = {
+    "relheight": 1,
+    "relwidth": 0.333,
+    "rely": 0,
+}
 
 form_label_config = {
     "fg": green_l,

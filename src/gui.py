@@ -152,8 +152,8 @@ class MainGui():
         spanish_button = Button(self.form,text="Español", command = self.spanish, **button_config)
         spanish_button.bind("<Return>", self.spanish)
 
-        english_button.place(rely=0.425, relwidth = 0.30, relx = 0.50, relheight = 0.10, anchor = CENTER)
-        spanish_button.place(rely=0.575, relwidth = 0.30, relx = 0.50, relheight = 0.10, anchor = CENTER)
+        english_button.place(rely=0.425, **lang_btn_position)
+        spanish_button.place(rely=0.575, **lang_btn_position)
 
     def spanish(self):
         self.lang = 'esp'
@@ -167,7 +167,7 @@ class MainGui():
         self.form.destroy()
         self.form = Frame(self.root, bg=green_d)
         
-        title = Label(self.form, text=str_initial_form[self.lang]['title'], fg=green_l, bg=green_dm, font=("Arial", 52))
+        title = Label(self.form, text = str_initial_form[self.lang]['title'], **inital_title_config)
 
         number_label = Label(self.form, text=str_initial_form[self.lang]['number'], **form_label_config)
         self.number_entry = Entry(self.form,  **form_entry_config)
@@ -205,9 +205,9 @@ class MainGui():
 
         gender_label.place(rely=0.49, **form_label_position)
         gender_frame.place(rely=0.49, **form_entry_position)
-        radio_male.place(relx=0, rely=0, relheight=1, relwidth=0.33)
-        radio_female.place(relx=0.33, rely=0, relheight=1, relwidth=0.33)
-        radio_other.place(relx=0.66, rely=0, relheight=1, relwidth=0.34)
+        radio_male.place(relx=0, **initial_gender_radio_config)
+        radio_female.place(relx=0.33, **initial_gender_radio_config)
+        radio_other.place(relx=0.66, **initial_gender_radio_config)
 
         nationality_label.place(rely=0.61, **form_label_position)
         nationality_frame.place(rely=0.61, **form_entry_position)
