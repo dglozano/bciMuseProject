@@ -13,7 +13,7 @@ class MainGui():
     def __init__(self):
         self.app = Controller(self)
         self.root = Tk()
-        self.root.configure(background=green_lm)
+        self.root.configure(background="white")
         self.fullscreen()
         self.choose_language()
         self.root.mainloop()
@@ -112,7 +112,7 @@ class MainGui():
         return [canadaWWII, malvinas, maradona, crosby, trump]
 
     def choose_language(self):
-        self.form = Frame(self.root, bg=green_lm)
+        self.form = Frame(self.root, bg="white")
         self.form.place(**container_place)
 
         # ----- Config ----- #

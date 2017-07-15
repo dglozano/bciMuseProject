@@ -90,3 +90,6 @@ ENV/
 
 # Do not save the experiments data in a public repository:
 experiments/
+
+# Do not save the dist.tar.gz file
+dist.tar.gz
