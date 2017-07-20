@@ -7,6 +7,7 @@ from controller import Controller
 from style import *
 from lang import *
 import subprocess
+import sys
 import time
 
 class MainGui():
@@ -23,7 +24,7 @@ class MainGui():
         self.root.geometry("%dx%d+0+0" % (w, h))
         self.root.attributes('-fullscreen', True)
         self.root.focus_set()
-        self.root.bind("<Escape>", lambda e: e.widget.quit())
+        self.root.bind("<Escape>", lambda e: sys.exit())
 
     def show_error(self):
         messagebox.showerror("Error", str_initial_form[self.lang]['error'])
@@ -83,7 +84,7 @@ class MainGui():
             subtitle = subtitles.pop()
             play_subprocess = subprocess.Popen(['vlc','--play-and-exit','-f',
                                                 '--sub-file=' + self.app.resources_path + 'subtitles/'+ self.lang + '-' + subtitle,
-                                                '--no-video-title', self.app.resources_path + 'videos/' + video])
+                                                '--no-video-title', self.app.resources_path + 'videos/' + video], shell=True)
             self.app.video_playing = 1
             play_subprocess.wait()
             self.app.video_playing = 0

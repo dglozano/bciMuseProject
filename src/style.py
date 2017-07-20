@@ -21,25 +21,25 @@ yellow_almost = "#ff9d34"
 form_label_config = {
     "fg": green_l,
     "bg": green_dm,
-    "font": ("Arial", 30)
+    "font": ("Arial", 24)
 }
 
 radio_button_config = {
-    "font":("Arial",30),
+    "font":("Arial",24),
     "bg":green_d,
     "fg":green_l,
-    "relief":RAISED,
+    "relief":FLAT,
     "anchor":CENTER,
     "cursor":"mouse",
-    "borderwidth":0,
     "activeforeground":green_l,
     "activebackground":green_m,
     "selectcolor":green_m,
-    "indicatoron":0,
+    "indicatoron": 0,
+    "borderwidth": 2,
 }
 
 button_config = {
-    "font": ("Arial", 30),
+    "font": ("Arial", 24),
     "bg": green_dm,
     "fg": green_l,
     "activebackground": green_m,
@@ -95,7 +95,7 @@ inital_title_config = {
 initial_entry_config = {
     "fg": green_dm,
     "bg": green_l,
-    "font": ("Arial", 30),
+    "font": ("Arial", 24),
     "relief": FLAT,
 }
 
@@ -136,7 +136,7 @@ instr_title_config = {
 }
 
 instr_text_config = {
-    "font": ("Arial", 25),
+    "font": ("Arial", 22),
     "fg": green_d,
     "bg": "white",
     "bd": 0,
@@ -148,7 +148,7 @@ instr_horseshoe_config = {
     "text": "⬤",
     "fg": red_disabled,
     "bg": "white",
-    "font": ("Arial",35),
+    "font": ("Arial",30),
 }
 
 instr_secs_left_config = {
@@ -220,7 +220,7 @@ goodbye_config = {
     "text":"",
     "fg": green_d,
     "bg": "white",
-    "font": ("Arial",80)
+    "font": ("Arial",70)
 }
 
 # Place

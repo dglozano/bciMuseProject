@@ -93,3 +93,10 @@ experiments/
 
 # Do not save the dist.tar.gz file
 dist.tar.gz
+
+# Exclude Windows extra directories and files
+tcl/
+Scripts/
+Lib/
+Include/
+pip-selfcheck.json
