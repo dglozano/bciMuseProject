@@ -12,10 +12,9 @@ import time
 import csv
 
 class MuseServer(threading.Thread):
-    # Creates the CSV file filled with the form's data and start listening on port 5000
     def __init__(self, app, args):
         threading.Thread.__init__(self)
-
+        self._stop_event = threading.Event()
         self.app = app
         self.subject_number, age, gender, self.nationality = args
         parser = argparse.ArgumentParser()
@@ -28,7 +27,6 @@ class MuseServer(threading.Thread):
         dispat.map("/muse/elements/horseshoe", self.horseshoe_callback, "Horseshoe")
 
         self.server = osc_server.BlockingOSCUDPServer((args.ip, args.port), dispat)
-
         print("Serving on {}".format(self.server.server_address))
 
         with open(self.app.experiments_path + "%s-%s.csv" % (self.nationality, self.subject_number), 'a', newline='') as csvfile:
@@ -37,7 +35,10 @@ class MuseServer(threading.Thread):
         
         
     def run(self):
-        self.server.serve_forever()
+        self.server.serve_forever(poll_interval=0.5)
+
+    def stop(self):
+        self.server.shutdown()
 
     # Receives EEG and current time data. Saves it in the CSV file along with a boolean flag
     # that indicates if the countdown is being shown (0) or a video is being played (1)

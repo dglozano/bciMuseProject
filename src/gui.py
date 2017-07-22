@@ -9,6 +9,7 @@ from lang import *
 import subprocess
 import sys
 import time
+import threading
 
 class MainGui():
     def __init__(self):
@@ -24,7 +25,7 @@ class MainGui():
         self.root.geometry("%dx%d+0+0" % (w, h))
         self.root.attributes('-fullscreen', True)
         self.root.focus_set()
-        self.root.bind("<Escape>", lambda e: sys.exit())
+        self.root.bind("<Escape>", lambda e: e.widget.quit())
 
     def show_error(self):
         messagebox.showerror("Error", str_initial_form[self.lang]['error'])
@@ -228,6 +229,7 @@ class MainGui():
         self.countdown_label.destroy()
         self.form = Frame(self.root, bg=green_d)
         self.form.place(**container_place)
+        self.root.bind("<Escape>", lambda e: sys.exit())
 
         # ----- Vars ----- #
 

@@ -14,12 +14,10 @@ class Controller():
         self.started = False
         self.stopped = False
         self.video_playing = 0
-        self.experiments_path = "../experiments/"
-        self.resources_path = "../res/"
+        self.experiments_path = "experiments/"
+        self.resources_path = "res/"
         self.videos = ["37s - Canada WWII.avi", "30s - Maradona.mp4", "30s - Trump.mp4", "37s - Crosby.mp4", "40s - Malvinas.mp4"]
         self.subtitles = ["Canada WWII.srt", "Maradona.srt", "Trump.srt", "Crosby.srt", "Malvinas.srt"]
-        #self.videos = ["30s - Trump.mp4"]
-        #self.subtitles = ["Trump.srt"]
 
     def continue_to_instructions(self, event = None):
         self.user_data = self.view.gather_data()
@@ -74,6 +72,7 @@ class Controller():
 
     def stop(self):
         self.stopped = True
+        self.server.stop()
         self.view.final_form()
 
     def exit_form_submit(self):
